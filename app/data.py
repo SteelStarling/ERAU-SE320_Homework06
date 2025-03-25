@@ -11,8 +11,6 @@ from dateutil import tz
 from requests import get
 import streamlit as st
 
-API_KEY_FILE    = "./app/data/api_key.txt"
-
 API_CME_URL     = "https://api.nasa.gov/DONKI/CME"
 # API_EPIC_URL    = "https://api.nasa.gov/EPIC/api/natural"
 # API_PICTURE_URL = "https://api.nasa.gov/EPIC/archive/natural/"
@@ -25,20 +23,23 @@ TIMEOUT = 10
 
 
 @st.cache_data
-def get_api_key(key_file: str = API_KEY_FILE) -> str:
-    """Fetches an API key from a given file"""
+def get_api_key() -> str:
+    """Fetches an API key from secrets.toml"""
 
     # Get the API key
     api_key = None
 
     try:
         # read in the API key
-        with open(key_file, "r", encoding = "utf-8") as file:
-            api_key = file.readline()
+        api_key = st.secrets["api_key"]
 
     except FileNotFoundError as e:
-        # if no API key is provided, throw error and return empty dict
+        # if no API key is provided, throw error and return empty string
         st.error("No API key provided: " + str(e), icon = "‼️")
+
+    except KeyError as e:
+        # if no API key exists in the secrets file, throw error
+        st.error("No API key provided in file: " + str(e), icon = "‼️")
 
     except OSError as e:
         # IO system error

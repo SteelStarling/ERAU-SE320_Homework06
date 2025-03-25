@@ -1,4 +1,6 @@
 # Ignore secrets
+.streamlit/
+secrets.toml
 api_key.txt
 
 # Ignore vscode specific info

@@ -1,3 +1,6 @@
+# Ignore secrets
+api_key.txt
+
 # Ignore vscode specific info
 .vscode/
 

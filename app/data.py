@@ -11,22 +11,57 @@ from dateutil import tz
 from requests import get
 import streamlit as st
 
-API_URL = "https://api.nasa.gov/DONKI/CME?api_key=DEMO_KEY"
-DATA_FILE = "./app/data/cmes.json"
+API_KEY_FILE    = "./app/data/api_key.txt"
 
-TIMEOUT = 3
+API_CME_URL     = "https://api.nasa.gov/DONKI/CME"
+API_EPIC_URL    = "https://api.nasa.gov/EPIC/api/natural"
+API_PICTURE_URL = "https://api.nasa.gov/EPIC/archive/natural/"
+
+CME_FILE        = "./app/data/cmes.json"
+EPIC_FILE       = "./app/data/epic.json"
+EPIC_IMAGES     = "./app/data/"
+
+TIMEOUT = 10
+
+
+@st.cache_data
+def get_api_key(key_file: str = API_KEY_FILE) -> str:
+    """Fetches an API key from a given file"""
+
+    # Get the API key
+    api_key = None
+
+    try:
+        # read in the API key
+        with open(key_file, "r", encoding = "utf-8") as file:
+            api_key = file.readline()
+
+    except FileNotFoundError as e:
+        # if no API key is provided, throw error and return empty dict
+        st.error("No API key provided: " + str(e), icon = "‼️")
+
+    except OSError as e:
+        # IO system error
+        st.error(str(e), icon = "‼️")
+
+    return api_key
+
 
 @st.cache_data(show_spinner="Fetching data...", ttl=60*10)
-def get_data(api_url: str = API_URL, data_file: str = DATA_FILE) -> dict:
+def get_data(api_url: str = API_CME_URL, data_file: str = CME_FILE) -> dict:
     """Fetches data from a file or the API"""
+
+    api_key = get_api_key()
+
+    # Gets the CME history
     try:
         # get the past 30 days of CME info
-        cme_history = get(url = api_url, timeout = TIMEOUT).json()
+        cme_history = get(url = api_url + "?api_key=" + api_key, timeout = TIMEOUT).json()
 
         # if fetch worked
         if cme_history:
             # backup to file
-            with open(data_file, "w", encodings = "utf-8") as file:
+            with open(data_file, "w", encoding = "utf-8") as file:
                 dump(cme_history, file)
             return cme_history
 
@@ -53,14 +88,24 @@ def reload_data() -> None:
     get_data.clear()
 
 
-def last_updated(forecast: dict) -> str:
+def time_to_string(date_time: str) -> str:
+    """Converts an ISO date string to a pretty string"""
+    date_time = datetime.fromisoformat(date_time)
+    date_time = date_time.replace(tzinfo=tz.gettz('UTC')).astimezone(tz.gettz("MST"))
+    return date_time.strftime('%A, %B %d, %Y %I:%M:%S %p %Z')
+
+
+def first_event(cmes: dict) -> str:
+    """Returns string for the timestamp of the first logged event"""
+    # first be sure cmes exist
+    if cmes:
+        return time_to_string(cmes[0]["startTime"])
+    return "NULL"
+
+
+def last_updated(cmes: dict) -> str:
     """Returns string for the timestamp of the last update"""
-    date_time = datetime.fromisoformat()
-    date_time = date_time.replace(tzinfo=tz.gettz('UTC')).astimezone()
-    return date_time.strftime('%A, %B %-d, %Y %-I:%M:%S %p %Z')
-
-
-# return values if run alone
-if __name__ == "__main__":
-    print("Testing 123")
-    cme_history = get(API_URL, timeout = TIMEOUT).json()
+    # first be sure cmes exist
+    if cmes:
+        return time_to_string(cmes[-1]["startTime"])
+    return "NULL"

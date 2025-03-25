@@ -1,5 +1,10 @@
 # Ignore secrets
+.streamlit/
+secrets.toml
 api_key.txt
+
+# Ignore json
+cmes.json
 
 # Ignore vscode specific info
 .vscode/

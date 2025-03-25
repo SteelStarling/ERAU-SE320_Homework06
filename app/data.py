@@ -14,12 +14,12 @@ import streamlit as st
 API_KEY_FILE    = "./app/data/api_key.txt"
 
 API_CME_URL     = "https://api.nasa.gov/DONKI/CME"
-API_EPIC_URL    = "https://api.nasa.gov/EPIC/api/natural"
-API_PICTURE_URL = "https://api.nasa.gov/EPIC/archive/natural/"
+# API_EPIC_URL    = "https://api.nasa.gov/EPIC/api/natural"
+# API_PICTURE_URL = "https://api.nasa.gov/EPIC/archive/natural/"
 
 CME_FILE        = "./app/data/cmes.json"
-EPIC_FILE       = "./app/data/epic.json"
-EPIC_IMAGES     = "./app/data/"
+# EPIC_FILE       = "./app/data/epic.json"
+# EPIC_IMAGES     = "./app/data/"
 
 TIMEOUT = 10
 
@@ -48,7 +48,7 @@ def get_api_key(key_file: str = API_KEY_FILE) -> str:
 
 
 @st.cache_data(show_spinner="Fetching data...", ttl=60*10)
-def get_data(api_url: str = API_CME_URL, data_file: str = CME_FILE) -> dict:
+def get_data(*, api_url: str = API_CME_URL, api_addons: str = "", data_file: str = CME_FILE) -> dict:
     """Fetches data from a file or the API"""
 
     api_key = get_api_key()
@@ -56,7 +56,7 @@ def get_data(api_url: str = API_CME_URL, data_file: str = CME_FILE) -> dict:
     # Gets the CME history
     try:
         # get the past 30 days of CME info
-        cme_history = get(url = api_url + "?api_key=" + api_key, timeout = TIMEOUT).json()
+        cme_history = get(url = f"{api_url}?{api_addons}api_key={api_key}", timeout = TIMEOUT).json()
 
         # if fetch worked
         if cme_history:

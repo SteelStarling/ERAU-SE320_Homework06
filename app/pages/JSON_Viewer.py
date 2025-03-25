@@ -1,5 +1,5 @@
 """Streamlit front-end for NASA's Coronal Mass Ejection API
-Author: Taylor Hancock, based on Wolf Paulus's JSON_View file
+Author: Taylor Hancock, based initially on Wolf Paulus's JSON_View file
 Date:   03/24/2025
 Class:  SE320 - Software Construction
 Assignment: Application UI

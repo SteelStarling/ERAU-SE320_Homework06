@@ -7,7 +7,7 @@ Assignment: Application UI
 
 import pandas as pd
 import streamlit as st
-import altair as alt
+# import altair as alt
 from data import get_data, reload_data, last_updated
 
 # Configure header info
@@ -27,29 +27,35 @@ st.markdown(
 )
 
 cme_data = get_data()
-st.title("Coronal Mass Ejection History")
-st.header("for the last 30 days")
+st.title("Most Recent Coronal Mass Ejection")
 
 updat_btn = st.sidebar.button("Update", type = "primary", on_click = reload_data)
 
-data_points = ["startTime", "speed", "type"]
+st.header(f"Last CME: {last_updated(cme_data)}")
+
+data_points = ["startTime", "cmeAnalyses.type", "cmeAnalyses.speed", "cmeAnalyses.halfAngle"]
+for cme in cme_data:
+    cme["cmeAnalyses"] = cme["cmeAnalyses"][0]
 cme_normalized = pd.json_normalize(cme_data)
-with pd.option_context('display.max_columns', None,
-                       'display.precision', 3,
-                       ):
-    print(cme_normalized)
-    
-full_data = pd.DataFrame(cme_normalized)
 
-chart_data = pd.DataFrame(full_data, columns = data_points)
+chart_data = pd.DataFrame(cme_normalized, columns = data_points)
 
-chart = (
-    alt.Chart(chart_data)
-    .mark_circle()
-    .encode(
-        x=alt.X("startTime", sort=None, title="Day"),
-        y=alt.Y("speed", title="Speed"),
-        size=alt.Size("type", title="Wind Speed (mph)"),
-    )
-)
-st.altair_chart(chart, use_container_width=True, theme=None)
+last_data = chart_data.iloc[-1]
+
+with st.container(border=True):
+    col1, col2, col3= st.columns(3)
+    col1.metric("Type", f"{last_data["cmeAnalyses.type"]}")
+    col2.metric("Speed", f"{last_data["cmeAnalyses.speed"]} km/s")
+    col3.metric("Half Angle (Width)", f"{last_data["cmeAnalyses.halfAngle"]}°")
+
+# removed for future work
+# chart = (
+#     alt.Chart(chart_data)
+#     .mark_circle()
+#     .encode(
+#         x=alt.X("startTime", title="Day"),
+#         y=alt.Y("cmeAnalyses.speed", title="Speed"),
+#         # size=alt.Size("cmeAnalyses.type", title="Type"),
+#     )
+# )
+# st.altair_chart(chart, use_container_width=True, theme=None)

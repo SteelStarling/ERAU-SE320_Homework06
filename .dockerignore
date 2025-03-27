@@ -1,0 +1,6 @@
+tests/
+__pycache__/
+.venv
+.gitignore
+.dockerignore
+README.md

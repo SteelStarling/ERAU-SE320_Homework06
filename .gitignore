@@ -1,11 +1,21 @@
+<<<<<<< Updated upstream
 # Ignore secrets
 .streamlit/
+=======
+<<<<<<< Updated upstream
+=======
+# Ignore secrets
+>>>>>>> Stashed changes
 secrets.toml
 api_key.txt
 
 # Ignore json
 cmes.json
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 # Ignore vscode specific info
 .vscode/
 

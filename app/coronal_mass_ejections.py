@@ -44,9 +44,9 @@ last_data = chart_data.iloc[-1]
 
 with st.container(border=True):
     col1, col2, col3= st.columns(3)
-    col1.metric("Type", f"{last_data["cmeAnalyses.type"]}")
-    col2.metric("Speed", f"{last_data["cmeAnalyses.speed"]} km/s")
-    col3.metric("Half Angle (Width)", f"{last_data["cmeAnalyses.halfAngle"]}°")
+    col1.metric("Type", f"{last_data['cmeAnalyses.type']}")
+    col2.metric("Speed", f"{last_data['cmeAnalyses.speed']} km/s")
+    col3.metric("Half Angle (Width)", f"{last_data['cmeAnalyses.halfAngle']}°")
 
 # removed for future work
 # chart = (

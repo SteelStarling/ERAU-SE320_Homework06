@@ -5,12 +5,17 @@ Class:  SE320 - Software Construction
 Assignment: Application UI
 """
 
-from data import get_data
+from data import get_data, get_api_key
 from os.path import exists, join
 from os import remove
 
 def test_data_acquisition():
     """Acquire data and verify it makes sense"""
+    
+    # verify api key exists
+    key = get_api_key()
+    assert key is not None, "No API key provided"
+
     path_to_data_file = join("app", "data", "cmes.json")
     if exists(path_to_data_file):
         remove(path_to_data_file)

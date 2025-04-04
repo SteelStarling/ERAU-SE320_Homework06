@@ -6,10 +6,17 @@ Assignment: Application UI
 """
 
 from json import dump, load
+import os
+
 from datetime import datetime
 from dateutil import tz
+from dotenv import load_dotenv
 from requests import get
 import streamlit as st
+
+# load environment
+load_dotenv()
+
 
 API_CME_URL     = "https://api.nasa.gov/DONKI/CME"
 # API_EPIC_URL    = "https://api.nasa.gov/EPIC/api/natural"
@@ -23,27 +30,15 @@ TIMEOUT = 10
 
 
 @st.cache_data
-def get_api_key() -> str:
-    """Fetches an API key from secrets.toml"""
+def get_api_key() -> str | None:
+    """Fetches an API key from environment"""
 
-    # Get the API key
-    api_key = None
+    # read in the API key
+    api_key = os.environ.get("API_KEY", None)
 
-    try:
-        # read in the API key
-        api_key = st.secrets["api_key"]
-
-    except FileNotFoundError as e:
-        # if no API key is provided, throw error and return empty string
-        st.error("No API key provided: " + str(e), icon = "‼️")
-
-    except KeyError as e:
-        # if no API key exists in the secrets file, throw error
-        st.error("No API key provided in file: " + str(e), icon = "‼️")
-
-    except OSError as e:
-        # IO system error
-        st.error(str(e), icon = "‼️")
+    # if no API key is provided, throw error and return None
+    if api_key is None:
+        st.error("No API key provided", icon = "‼️")
 
     return api_key
 

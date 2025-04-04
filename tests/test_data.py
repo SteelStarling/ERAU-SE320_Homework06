@@ -5,9 +5,11 @@ Class:  SE320 - Software Construction
 Assignment: Application UI
 """
 
-from data import get_data, get_api_key
 from os.path import exists, join
 from os import remove
+
+from data import get_data, get_api_key
+
 
 def test_data_acquisition():
     """Acquire data and verify it makes sense"""

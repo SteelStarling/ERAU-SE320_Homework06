@@ -9,7 +9,7 @@ from streamlit.testing.v1 import AppTest
 
 def test_ui_values():
     """Test to ensure the UI displayed in the application is correct"""
-    apptest = AppTest.from_file("../app/coronal_mass_ejections.py")
+    apptest = AppTest.from_file("../src/coronal_mass_ejections.py")
     apptest.run(timeout = 20)
 
     assert apptest.title[0].value.startswith("Most Recent Coronal Mass Ejection")

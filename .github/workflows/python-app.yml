@@ -21,7 +21,7 @@ permissions:
 jobs:
   build:
     env:
-      PYTHONPATH: "./app"
+      PYTHONPATH: "./src"
 
     runs-on: ubuntu-latest
 

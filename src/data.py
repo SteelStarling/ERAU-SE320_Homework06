@@ -22,9 +22,9 @@ API_CME_URL     = "https://api.nasa.gov/DONKI/CME"
 # API_EPIC_URL    = "https://api.nasa.gov/EPIC/api/natural"
 # API_PICTURE_URL = "https://api.nasa.gov/EPIC/archive/natural/"
 
-CME_FILE        = "./app/data/cmes.json"
-# EPIC_FILE       = "./app/data/epic.json"
-# EPIC_IMAGES     = "./app/data/"
+CME_FILE        = "./src/data/cmes.json"
+# EPIC_FILE       = "./src/data/epic.json"
+# EPIC_IMAGES     = "./src/data/"
 
 TIMEOUT = 10
 

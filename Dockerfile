@@ -1,11 +1,14 @@
 FROM python:3.11-slim
 
-WORKDIR /app
+WORKDIR /cme_tool
 
-COPY . .
+COPY . /cme_tool
 
 RUN pip install -r requirements.txt
 
 EXPOSE 8501
 
-CMD ["streamlit", "run", "./app/coronal_mass_ejections.py"]
+ARG API_KEY
+ENV API_KEY=$API_KEY
+
+CMD ["streamlit", "run", "src/coronal_mass_ejections.py"]

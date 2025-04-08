@@ -18,7 +18,7 @@ def test_data_acquisition():
     key = get_api_key()
     assert key is not None, "No API key provided"
 
-    path_to_data_file = join("app", "data", "cmes.json")
+    path_to_data_file = join("src", "data", "cmes.json")
     if exists(path_to_data_file):
         remove(path_to_data_file)
 

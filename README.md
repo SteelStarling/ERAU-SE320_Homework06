@@ -12,7 +12,7 @@ Add your own API key to a .env file in the root directory, in the format: `API_K
 
 Ensure all requirements are installed
 
-Run via the command `streamlit run app/coronal_mass_ejections.py`
+Run via the command `streamlit run src/coronal_mass_ejections.py`
 
 ### Future Development Plans
 

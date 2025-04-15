@@ -1,0 +1,9 @@
+services:
+  cme_viewer:
+    container_name: cme_viewer
+    build:
+      dockerfile: Dockerfile
+      args:
+        - API_KEY=$API_KEY
+    ports:
+        - "8501:8501"

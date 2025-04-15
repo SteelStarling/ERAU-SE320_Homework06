@@ -1,6 +1,9 @@
 tests/
 __pycache__/
-.venv
+.venv/
+.github/
 .gitignore
 .dockerignore
 README.md
+AssignmentNotes.md
+.env.example

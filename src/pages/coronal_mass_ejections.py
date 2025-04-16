@@ -10,22 +10,6 @@ import streamlit as st
 # import altair as alt
 from data import get_data, reload_data, last_updated
 
-# Configure header info
-st.set_page_config(
-    page_title = "Coronal Mass Ejections",
-    page_icon  = "☀️"
-)
-
-# Hide header with CSS
-st.markdown(
-    """
-    <style>
-        header { visibility: hidden; }
-    </style>
-    """,
-    unsafe_allow_html = True
-)
-
 cme_data = get_data()
 st.title("Most Recent Coronal Mass Ejection")
 

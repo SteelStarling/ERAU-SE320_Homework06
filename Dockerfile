@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 WORKDIR /cme_tool
 
@@ -11,4 +11,4 @@ EXPOSE 8501
 ARG API_KEY
 ENV API_KEY=$API_KEY
 
-CMD ["streamlit", "run", "src/coronal_mass_ejections.py"]
+CMD ["streamlit", "run", "src/streamlit_app.py"]

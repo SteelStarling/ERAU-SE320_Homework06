@@ -26,6 +26,7 @@ CME_FILE        = "./src/data/cmes.json"
 # EPIC_FILE       = "./src/data/epic.json"
 # EPIC_IMAGES     = "./src/data/"
 
+
 TIMEOUT = 10
 
 
@@ -33,8 +34,13 @@ TIMEOUT = 10
 def get_api_key() -> str | None:
     """Fetches an API key from environment"""
 
-    # read in the API key
-    api_key = os.environ.get("API_KEY", None)
+    # try fetching from secrets.toml (for web deployment)
+    try:
+        api_key = st.secrets["API_KEY"]
+
+    except (FileNotFoundError, KeyError) as e:
+        # check environment variables for key if secrets.toml fails
+        api_key = os.environ.get("API_KEY", None)
 
     # if no API key is provided, throw error and return None
     if api_key is None:
